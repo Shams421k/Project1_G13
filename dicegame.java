@@ -17,8 +17,21 @@ public class DiceGame {
         Player player = new Player(name);
 
         // Fråga hur många omgångar
-        System.out.print("Hur många omgångar vill du spela? ");
-        int rounds = scanner.nextInt();
+        int rounds = 0;
+        while (rounds <= 0) {
+            System.out.print("Hur många omgångar vill du spela? ");
+
+            if (scanner.hasNextInt()) {
+                rounds = scanner.nextInt();
+
+                if (rounds <= 0) {
+                    System.out.println("Du måste välja minst 1 omgång.");
+                }
+            } else {
+                System.out.println("Fel! Du måste skriva ett heltal.");
+                scanner.next();
+            }
+        }
 
         // Fråga hur många sidor tärningen ska ha
         System.out.print("Hur många sidor ska tärningen ha? ");
