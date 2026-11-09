@@ -34,8 +34,22 @@ public class DiceGame {
         }
 
         // Fråga hur många sidor tärningen ska ha
-        System.out.print("Hur många sidor ska tärningen ha? ");
-        int numberOfSides = scanner.nextInt();
+        int numberOfSides = 0;
+        while (numberOfSides <= 0) {
+            System.out.print("Hur många sidor ska tärningen ha? ");
+
+            if (scanner.hasNextInt()) {
+                numberOfSides = scanner.nextInt();
+
+                if (numberOfSides <= 0) {
+                    System.out.println("Tärningen måste ha minst 1 sida.");
+                }
+            } else {
+                System.out.println("Fel! Du måste skriva ett heltal.");
+                scanner.next();
+            }
+        }
+
 
         // Ge spelaren en tärning
         player.addDie(numberOfSides);
