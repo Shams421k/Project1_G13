@@ -39,12 +39,12 @@ public class Player {
     public void rollDice(){
         die.roll();
     }
-    public int getDieValue(){
-        return points = die.getValue();
+    public int getDieValue() {
+    return die.getValue();
     }
 
-    public int increaseScore(){
-        return points + 1;
+    public void increaseScore() {
+    points++;
     }
 
 }   
