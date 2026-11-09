@@ -54,15 +54,37 @@ public class DiceGame {
         // Ge spelaren en tärning
         player.addDie(numberOfSides);
 
- System.out.println("Hej " + player.getName() + "!");
+        System.out.println("Hej " + player.getName() + "!");
         System.out.println("Nu börjar spelet!");
 
         for (int i = 1; i <= rounds; i++) {
 
             System.out.println("\nOmgång " + i);
 
-            System.out.print("Gissa ett tal mellan 1 och " + numberOfSides + ": ");
-            int guess = scanner.nextInt();
+            
+            int guess = 0; // Spelarens gissning börjar på 0
+
+            // Fortsätt fråga tills spelaren skriver ett giltigt tal
+            while (guess < 1 || guess > numberOfSides) {
+
+                System.out.print("Gissa ett tal mellan 1 och " + numberOfSides + ": ");
+
+                // Kontrollera om spelaren skriver ett heltal
+                if (scanner.hasNextInt()) {
+                    guess = scanner.nextInt();
+
+                    // Kontrollera om talet är inom tärningens gränser
+                    if (guess < 1 || guess > numberOfSides) {
+                        System.out.println("Fel! Talet måste vara mellan 1 och " + numberOfSides + ".");
+                    }
+
+                } else {
+                    // Om spelaren skriver bokstäver istället för siffror
+                    System.out.println("Fel! Du måste skriva ett heltal.");
+                    scanner.next(); // Ta bort den felaktiga inmatningen
+                }
+            }
+
 
             player.rollDice();
             int diceValue = player.getDieValue();
