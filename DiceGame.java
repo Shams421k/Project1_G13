@@ -111,12 +111,12 @@ public class DiceGame {
             System.out.println();
 
             // Kontrollera resultatet
-            if (guess == diceValue) {
-                player.setPoints(player.getPoints() + 1);
+                if (guess == diceValue) {
+                player.increaseScore();
                 System.out.println("*** RÄTT GISSAT! +1 POÄNG ***");
             } else {
                 System.out.println("--- FEL GISSAT! ---");
-            }
+}
 
             System.out.println();
             System.out.println("Total poäng: " + player.getPoints());
