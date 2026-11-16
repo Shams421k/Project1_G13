@@ -7,17 +7,23 @@ public class DiceGame {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Välkommen till tärningsspelet!");
+        clearScreen();
+
+        System.out.println("================================");
+        System.out.println("         TÄRNINGSSPELET");
+        System.out.println("================================");
 
         // Fråga efter spelarens namn
         System.out.print("Ange ditt namn: ");
         String name = scanner.nextLine();
 
-        // Skapa spelaren
         Player player = new Player(name);
+
+        clearScreen();
 
         // Fråga hur många omgångar
         int rounds = 0;
+
         while (rounds <= 0) {
             System.out.print("Hur många omgångar vill du spela? ");
 
@@ -25,16 +31,19 @@ public class DiceGame {
                 rounds = scanner.nextInt();
 
                 if (rounds <= 0) {
-                    System.out.println("Du måste välja minst 1 omgång.");
+                    System.out.println("Fel! Välj minst 1 omgång.");
                 }
             } else {
-                System.out.println("Fel! Du måste skriva ett heltal.");
+                System.out.println("Fel! Skriv ett heltal.");
                 scanner.next();
             }
         }
 
+        clearScreen();
+
         // Fråga hur många sidor tärningen ska ha
         int numberOfSides = 0;
+
         while (numberOfSides <= 0) {
             System.out.print("Hur många sidor ska tärningen ha? ");
 
@@ -42,68 +51,128 @@ public class DiceGame {
                 numberOfSides = scanner.nextInt();
 
                 if (numberOfSides <= 0) {
-                    System.out.println("Tärningen måste ha minst 1 sida.");
+                    System.out.println("Fel! Välj minst 1 sida.");
                 }
             } else {
-                System.out.println("Fel! Du måste skriva ett heltal.");
+                System.out.println("Fel! Skriv ett heltal.");
                 scanner.next();
             }
         }
 
-
-        // Ge spelaren en tärning
         player.addDie(numberOfSides);
 
-        System.out.println("Hej " + player.getName() + "!");
-        System.out.println("Nu börjar spelet!");
+        // Ta bort kvarvarande radbrytning
+        scanner.nextLine();
 
+        // Starta spelet
         for (int i = 1; i <= rounds; i++) {
 
-            System.out.println("\nOmgång " + i);
+            clearScreen();
 
-            
-            int guess = 0; // Spelarens gissning börjar på 0
+            System.out.println("================================");
+            System.out.println("         TÄRNINGSSPELET");
+            System.out.println("================================");
+            System.out.println("Spelare : " + player.getName());
+            System.out.println("Omgång  : " + i + " av " + rounds);
+            System.out.println("Poäng   : " + player.getPoints());
+            System.out.println();
+            System.out.println("---------- OMGÅNG " + i + " ----------");
+            System.out.println();
 
-            // Fortsätt fråga tills spelaren skriver ett giltigt tal
+            int guess = 0;
+
+            // Kontrollera spelarens gissning
             while (guess < 1 || guess > numberOfSides) {
 
-                System.out.print("Gissa ett tal mellan 1 och " + numberOfSides + ": ");
+                System.out.print("Gissa ett tal mellan 1 och "
+                        + numberOfSides + ": ");
 
-                // Kontrollera om spelaren skriver ett heltal
                 if (scanner.hasNextInt()) {
                     guess = scanner.nextInt();
 
-                    // Kontrollera om talet är inom tärningens gränser
                     if (guess < 1 || guess > numberOfSides) {
-                        System.out.println("Fel! Talet måste vara mellan 1 och " + numberOfSides + ".");
+                        System.out.println("Fel! Talet måste vara mellan 1 och "
+                                + numberOfSides + ".");
                     }
-
                 } else {
-                    // Om spelaren skriver bokstäver istället för siffror
-                    System.out.println("Fel! Du måste skriva ett heltal.");
-                    scanner.next(); // Ta bort den felaktiga inmatningen
+                    System.out.println("Fel! Skriv ett heltal.");
+                    scanner.next();
                 }
             }
 
-
+            // Kasta tärningen
             player.rollDice();
             int diceValue = player.getDieValue();
 
-            System.out.println("Tärningen visade: " + diceValue);
+            System.out.println();
+            System.out.println("------------ RESULTAT ------------");
+            System.out.println("Din gissning      : " + guess);
+            System.out.println("Tärningen visade  : " + diceValue);
+            System.out.println();
 
+            // Kontrollera resultatet
             if (guess == diceValue) {
-                System.out.println("Rätt gissat! Du får 1 poäng.");
                 player.setPoints(player.getPoints() + 1);
+                System.out.println("*** RÄTT GISSAT! +1 POÄNG ***");
             } else {
-                System.out.println("Fel gissat!");
+                System.out.println("--- FEL GISSAT! ---");
             }
 
-            System.out.println("Din poäng: " + player.getPoints());
+            System.out.println();
+            System.out.println("Total poäng: " + player.getPoints());
+            System.out.println("----------------------------------");
+
+            // Vänta innan nästa omgång
+            scanner.nextLine();
+
+            if (i < rounds) {
+                System.out.println();
+                System.out.print("Tryck Enter för nästa omgång...");
+            } else {
+                System.out.println();
+                System.out.print("Tryck Enter för slutresultatet...");
+            }
+
+            scanner.nextLine();
         }
 
-        System.out.println("\nSpelet är slut!");
-        System.out.println(player.getName() + " fick totalt " + player.getPoints() + " poäng.");
+        clearScreen();
+
+        // Visa slutresultatet
+        System.out.println("================================");
+        System.out.println("           SPELET SLUT!");
+        System.out.println("================================");
+        System.out.println();
+        System.out.println("Spelare       : " + player.getName());
+        System.out.println("Antal omgångar: " + rounds);
+        System.out.println("Slutpoäng     : " + player.getPoints());
+        System.out.println();
+        System.out.println("================================");
 
         scanner.close();
+    }
+
+    // Rensa terminalen
+    public static void clearScreen() {
+
+        try {
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+
+                new ProcessBuilder("cmd", "/c", "cls")
+                        .inheritIO()
+                        .start()
+                        .waitFor();
+
+            } else {
+                System.out.print("\033[H\033[2J\033[3J");
+                System.out.flush();
+            }
+
+        } catch (Exception e) {
+            // Reservlösning om rensning inte fungerar
+            for (int i = 0; i < 50; i++) {
+                System.out.println();
+            }
+        }
     }
 }
