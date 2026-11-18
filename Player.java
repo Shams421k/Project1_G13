@@ -1,15 +1,3 @@
-/*TODO:
-- Skapa 3 privata instansvariabler för namn, poäng och dice
-- skapa konstruktorn public player (String name) och sparar namnet i instansvariabel
-- Skapa public String getName som returnerar namnet
-- Skapa int get och void setter för score
-- Skapa publoic void addDie(int numberOfSides): Skapa en tärning med new Die(numberOfSides), sparar dden i spelarens variabel die
-- Skapa void rollDice som anropar spelarens roll
-- Skapa getDieValue som returnerar spelarens poäng
-- Skapa increaseScore som ökar poängen med ett
-
-
- */
 
 public class Player {
     private String name;
@@ -35,14 +23,15 @@ public class Player {
     public void addDie(int numberOfSides){
         this.die = new Die(numberOfSides);
     }
-
+    //Spelaren kastar tärningen
     public void rollDice(){
         die.roll();
     }
+    //Tärningens värde returnerar
     public int getDieValue() {
     return die.getValue();
     }
-
+    //Spelarens poäng ökar med 1
     public void increaseScore() {
     points++;
     }
